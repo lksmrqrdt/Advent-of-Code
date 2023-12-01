@@ -1,7 +1,7 @@
 import AOC from "../aoc";
-import { getDigit } from "./util";
+import { getDigit, getNumberLiteral } from "./util";
 
-export default class Part1 extends AOC {
+export default class Part2 extends AOC {
 	constructor() {
 		super(1);
 	}
@@ -15,13 +15,13 @@ export default class Part1 extends AOC {
 
 				let firstDigit: number | undefined;
 				while (firstDigit === undefined) {
-					firstDigit = getDigit(line, l);
+					firstDigit = getDigit(line, l) ?? getNumberLiteral(line, l);
 					l++;
 				}
 
 				let secondDigit: number | undefined;
 				while (secondDigit === undefined) {
-					secondDigit = getDigit(line, r);
+					secondDigit = getDigit(line, r) ?? getNumberLiteral(line, r);
 					r--;
 				}
 
