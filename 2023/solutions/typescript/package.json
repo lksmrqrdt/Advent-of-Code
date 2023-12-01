@@ -1,0 +1,30 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "module": "index.ts",
+  "type": "module",
+  "scripts": {
+    "format": "bunx @biomejs/biome check --apply .",
+    "lint": "bunx @biomejs/biome lint ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lksmrqrdt/Advent-of-Code.git"
+  },
+  "author": {
+    "name": "Lukas Marquardt",
+    "email": "git@lksmrqrdt.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lksmrqrdt/Advent-of-Code/issues"
+  },
+  "homepage": "https://github.com/lksmrqrdt/Advent-of-Code#readme",
+  "devDependencies": {
+    "@biomejs/biome": "1.4.1",
+    "bun-types": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}
