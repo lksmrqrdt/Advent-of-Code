@@ -5,17 +5,17 @@ export default class Part1 extends AOC {
 		super(2);
 	}
 
-  private maxValid = {
-    red: 12,
-    green: 13,
-    blue: 14,
-  }
-  
-  private regex = {
-    game: /Game (?<game>\d+): (?<rounds>.*)/g,
-    rounds: /(?:\d+ \w+,? ?)+;?/g,
-    score: /(?<amount>\d+) (?<color>\w+)/g
-  }
+	private maxValid = {
+		red: 12,
+		green: 13,
+		blue: 14,
+	};
+
+	private regex = {
+		game: /Game (?<game>\d+): (?<rounds>.*)/g,
+		rounds: /(?:\d+ \w+,? ?)+;?/g,
+		score: /(?<amount>\d+) (?<color>red|green|blue)/g,
+	};
 
 	private validGamesSum = 0;
 
