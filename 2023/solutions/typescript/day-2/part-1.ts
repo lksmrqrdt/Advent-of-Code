@@ -19,23 +19,22 @@ export default class Part1 extends AOC {
 
 	private validGamesSum = 0;
 
-	async solve() {
-		super
-			.readInput()
-			.then((input) => {
-				const games = input.matchAll(this.regex.game);
-				for (const round of games) {
-					const game = round.groups!.game;
-					const rounds = round.groups!.rounds;
+	async solve(): Promise<number> {
+		return super.readInput().then((input) => {
+			const games = input.matchAll(this.regex.game);
+			for (const round of games) {
+				// biome-ignore lint/style/noNonNullAssertion: This is a valid assertion as the input is controlled
+				const game = round.groups!.game;
+				// biome-ignore lint/style/noNonNullAssertion: This is a valid assertion as the input is controlled
+				const rounds = round.groups!.rounds;
 
-					if (this.validateRounds(rounds)) {
-						this.validGamesSum += Number.parseInt(game);
-					}
+				if (this.validateRounds(rounds)) {
+					this.validGamesSum += Number.parseInt(game);
 				}
-			})
-			.finally(() => {
-				console.log(this.validGamesSum);
-			});
+			}
+
+			return this.validGamesSum;
+		});
 	}
 
 	private validateRounds(rounds: string): boolean {
