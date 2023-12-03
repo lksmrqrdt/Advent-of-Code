@@ -4,10 +4,13 @@ import { getDigit, getNumberLiteral } from "./util";
 export default class Part2 extends AOC {
 	constructor() {
 		super(1);
+		this.lines = this.input.split("\n");
 	}
 
+	private readonly lines: string[];
+
 	async solve(): Promise<number> {
-		const numbers = this.input.split("\n").map((line) => {
+		const numbers = this.lines.map((line) => {
 			let l = 0;
 			let r = line.length - 1;
 
