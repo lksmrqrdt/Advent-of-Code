@@ -15,13 +15,13 @@ export default class Part1 extends AOC {
 
 	async solve(): Promise<number> {
 		return this.lines
-			.map(line => this.collectNumberRanges(line))
+			.map((line) => this.collectNumberRanges(line))
 			.reduce((sum, ranges, i) => sum + this.calculateRow(ranges, i), 0);
 	}
 
 	private calculateRow(ranges: [number, number][], row: number): number {
 		return ranges
-			.filter(range => this.checkSurroundings(range, row))
+			.filter((range) => this.checkSurroundings(range, row))
 			.reduce((sum, range) => sum + this.calculateRange(range, row), 0);
 	}
 
