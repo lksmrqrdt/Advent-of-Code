@@ -1,16 +1,15 @@
 import fs from "fs";
 
 export default abstract class AOC {
-	private day: number;
+	private readonly day: number;
+	protected readonly input: string;
 
 	constructor(day: number) {
 		this.day = day;
+		this.input = this.readInput();
 	}
 
-	async readInput(): Promise<string> {
-		return await fs.promises.readFile(
-			`../../inputs/day-${this.day}.txt`,
-			"utf-8",
-		);
+	readInput() {
+		return fs.readFileSync(`../../inputs/day-${this.day}.txt`, "utf-8");
 	}
 }
