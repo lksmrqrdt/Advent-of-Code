@@ -7,9 +7,9 @@ export default class Part1 extends AOC {
 	}
 
 	async solve(): Promise<number> {
-		return super.readInput().then((input) => {
+		return super.readInput().then(input => {
 			const lines = input.split("\n");
-			const numbers = lines.map((line) => {
+			const numbers = lines.map(line => {
 				let l = 0;
 				let r = line.length - 1;
 

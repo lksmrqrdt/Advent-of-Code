@@ -20,7 +20,7 @@ export default class Part1 extends AOC {
 	private validGamesSum = 0;
 
 	async solve(): Promise<number> {
-		return super.readInput().then((input) => {
+		return super.readInput().then(input => {
 			const games = input.matchAll(this.regex.game);
 			for (const round of games) {
 				// biome-ignore lint/style/noNonNullAssertion: This is a valid assertion as the input is controlled
