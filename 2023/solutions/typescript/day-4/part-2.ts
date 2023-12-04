@@ -1,6 +1,6 @@
 import AOC from "../aoc";
 
-export default class Part1 extends AOC {
+export default class Part2 extends AOC {
 	constructor() {
 		super(4);
 
@@ -37,6 +37,7 @@ export default class Part1 extends AOC {
 	private counter: number;
 
 	async solve(): Promise<number> {
+		console.log(this.matches)
 		while (this.queue.length > 0) {
 			const currentElement = this.queue.pop();
 
