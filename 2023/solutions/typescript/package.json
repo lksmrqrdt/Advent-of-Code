@@ -4,6 +4,7 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
+    "benchmark": "bun run benchmark.ts",
     "solve": "bun run index.ts",
     "format": "bunx @biomejs/biome check --apply .",
     "lint": "bunx @biomejs/biome lint ."
@@ -23,7 +24,8 @@
   "homepage": "https://github.com/lksmrqrdt/Advent-of-Code#readme",
   "devDependencies": {
     "@biomejs/biome": "1.4.1",
-    "bun-types": "latest"
+    "bun-types": "latest",
+    "mitata": "^0.1.6"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
