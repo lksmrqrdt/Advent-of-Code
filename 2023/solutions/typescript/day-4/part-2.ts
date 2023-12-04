@@ -4,48 +4,47 @@ export default class Part1 extends AOC {
 	constructor() {
 		super(4);
 
-		this.lines = this.input.split("\n");
+		const lines = this.input.split("\n");
+		const cards = lines.map((line) => line.split(":")[1].trim().split("|"));
+
+		this.length = cards.length;
+		this.counter = this.length;
+
+		// Some cards have multiple white spaces between words, so we need to trim them
+		// using a regex
+		this.winners = cards.map((card) => new Set(card[0].trim().split(/\s+/)));
+		this.guesses = cards.map((card) => new Set(card[1].trim().split(/\s+/)));
+
+    this.queue = this.range(0, this.length);
 	}
 
-	private readonly lines: string[];
+	private readonly length: number;
+	private readonly winners: Set<string>[];
+	private readonly guesses: Set<string>[];
+
+  private queue: number[];
+	private counter: number;
 
 	async solve(): Promise<number> {
-		let counter = this.lines.length;
-		const queue: number[] = this.range(0, this.lines.length);
-
-		while (queue.length > 0) {
-			// We don't need an actual queue, we just need to pop the first element.
-			// queue.pop() is O(1), while queue.shift() is O(n).
-			const currentElement = queue.pop();
+		while (this.queue.length > 0) {
+			const currentElement = this.queue.pop();
 
 			if (currentElement === undefined) {
 				throw new Error("Queue is empty, but should not be!");
 			}
 
-			const cardContent = this.lines[currentElement]
-				.split(":")[1]
-				.trim()
-				.split("|");
-			// Some cards have multiple white spaces between words, so we need to trim them
-			// using a regex
-			const winning = new Set(cardContent[0].trim().split(/\s+/));
-			const guessed = new Set(cardContent[1].trim().split(/\s+/));
-
 			let matches = 0;
-			for (const item of guessed) {
-				if (winning.has(item)) {
+			for (const item of this.guesses[currentElement]) {
+				if (this.winners[currentElement].has(item)) {
+					this.queue.push(currentElement + matches + 1);
 					matches += 1;
 				}
 			}
 
-			for (let i = 0; i < matches; i++) {
-				queue.push(currentElement + i + 1);
-			}
-
-			counter += matches;
+			this.counter += matches;
 		}
 
-		return counter;
+		return this.counter;
 	}
 
 	private range(start: number, end: number) {
