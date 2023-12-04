@@ -10,6 +10,7 @@ export default class Part1 extends AOC {
 		this.length = cards.length;
 		this.counter = this.length;
 		this.queue = this.range(0, this.length);
+		this.matches = [];
 
 		// Some cards have multiple white spaces between words, so we need to trim them
 		// using a regex
@@ -30,7 +31,7 @@ export default class Part1 extends AOC {
 	}
 
 	private readonly length: number;
-	private readonly matches: number[] = [];
+	private readonly matches: number[];
 
 	private queue: number[];
 	private counter: number;

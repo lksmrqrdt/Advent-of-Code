@@ -4,31 +4,45 @@ export default class Part1 extends AOC {
 	constructor() {
 		super(4);
 
-		this.lines = this.input.split("\n");
-	}
+		const lines = this.input.split("\n");
+		const cards = lines.map((line) => line.split(":")[1].trim().split("|"));
 
-	private readonly lines: string[];
+		this.length = lines.length;
+		this.matches = [];
 
-	async solve(): Promise<number> {
-		let value = 0;
-		for (const line of this.lines) {
-			const cardContent = line.split(":")[1].trim().split("|");
-			// Some cards have multiple white spaces between words, so we need to trim them
-			// using a regex
-			const winning = new Set(cardContent[0].trim().split(/\s+/));
-			const guessed = new Set(cardContent[1].trim().split(/\s+/));
+		// Some cards have multiple white spaces between words, so we need to trim them
+		// using a regex
+		const winners = cards.map((card) => new Set(card[0].trim().split(/\s+/)));
+		const guesses = cards.map((card) => new Set(card[1].trim().split(/\s+/)));
 
-			let matches = 0;
-			for (const item of guessed) {
-				if (winning.has(item)) {
-					matches += 1;
+		for (let i = 0; i < this.length; i++) {
+			let matchCount = 0;
+
+			for (const item of winners[i]) {
+				if (guesses[i].has(item)) {
+					matchCount += 1;
 				}
 			}
 
+			this.matches.push(matchCount);
+		}
+
+		this.value = 0;
+	}
+
+	private readonly length: number;
+	private readonly matches: number[];
+	private value: number;
+
+	async solve(): Promise<number> {
+		for (let i = 0; i < this.length; i++) {
+			const matches = this.matches[i];
+
 			if (matches > 0) {
-				value += 2 ** (matches - 1);
+				this.value += 2 ** (matches - 1);
 			}
 		}
-		return value;
+
+		return this.value;
 	}
 }
