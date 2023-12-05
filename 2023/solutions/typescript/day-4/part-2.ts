@@ -8,8 +8,8 @@ export default class Part2 extends AOC {
 		const cards = lines.map((line) => line.split(":")[1].trim().split("|"));
 
 		this.length = cards.length;
-		this.counter = this.length;
-		this.queue = this.range(0, this.length);
+		this.counter = 0;
+		this.guesses = [];
 		this.matches = [];
 
 		// Some cards have multiple white spaces between words, so we need to trim them
@@ -27,36 +27,27 @@ export default class Part2 extends AOC {
 			}
 
 			this.matches.push(matchCount);
+			this.guesses.push(1);
 		}
 	}
 
 	private readonly length: number;
 	private readonly matches: number[];
+	private guesses: number[];
 
-	private queue: number[];
 	private counter: number;
 
 	async solve(): Promise<number> {
-		console.log(this.matches)
-		while (this.queue.length > 0) {
-			const currentElement = this.queue.pop();
+		for (let i = 0; i < this.length; i++) {
+			const cardCount = this.guesses[i];
+			this.counter += cardCount;
 
-			if (currentElement === undefined) {
-				throw new Error("Queue is empty, but should not be!");
+			const matchCount = this.matches[i];
+			for (let j = 0; j < matchCount; j++) {
+				this.guesses[i + j + 1] += cardCount;
 			}
-
-			const matches = this.matches[currentElement];
-			for (let i = 0; i < matches; i++) {
-				this.queue.push(currentElement + i + 1);
-			}
-
-			this.counter += matches;
 		}
 
 		return this.counter;
-	}
-
-	private range(start: number, end: number) {
-		return Array.from({ length: end - start }, (_v, k) => k + start);
 	}
 }
