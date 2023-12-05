@@ -2,23 +2,23 @@ use color_eyre::eyre::{ContextCompat, Result};
 use color_eyre::Help;
 use std::collections::HashSet;
 use std::fs::File;
-use std::io::{BufRead, BufReader, Seek, SeekFrom};
+use std::io::{BufRead, BufReader};
 
 pub struct Scratchcards {
-    quantity: usize,
+    counts: Vec<usize>,
     matches: Vec<usize>,
 }
 
 impl Scratchcards {
     pub fn new(filename: &str) -> Result<Self> {
-        let mut file = File::open(filename)?;
+        let file = File::open(filename)?;
+        let reader = BufReader::new(file).lines();
 
-        let quantity = BufReader::new(&file).lines().count();
-        let mut matches = vec![0; quantity];
+        let mut matches = Vec::new();
+        let mut counts = Vec::new();
 
-        file.seek(SeekFrom::Start(0))?;
-        for (index, input) in BufReader::new(&file).lines().enumerate() {
-            let line = input?;
+        for text in reader {
+            let line = text?;
 
             let (_titles, cards) = line
                 .split_once(":")
@@ -33,25 +33,25 @@ impl Scratchcards {
             let winner_hashset: HashSet<&str> = HashSet::from_iter(winners.split_whitespace());
             let guesses_hashset: HashSet<&str> = HashSet::from_iter(guesses.split_whitespace());
 
-            matches[index] = winner_hashset.intersection(&guesses_hashset).count()
+            matches.push(winner_hashset.intersection(&guesses_hashset).count());
+            counts.push(1);
         }
 
-        Ok(Self { quantity, matches })
+        Ok(Self { counts, matches })
     }
-    pub fn solve(&self) -> Result<usize> {
-        let mut stack = Vec::from_iter(0..self.quantity);
-        let mut counter = self.quantity;
+    pub fn solve(&mut self) -> Result<usize> {
+        let mut counter = 0;
 
-        while !stack.is_empty() {
-            // Unwrap is fine here, as this code won't be reached, if the stack is empty.
-            let element = stack.pop().unwrap();
-            let match_count = self.matches[element];
+        for i in 0..self.counts.len() {
+            let card_count = self.counts[i];
+            counter += card_count;
 
-            for i in 0..match_count {
-                stack.push(element + i + 1)
+            let match_count = self.matches[i];
+
+            for j in 0..match_count {
+                // This will not overflow, as the input is strictly made to not cause a failure here.
+                self.counts[i + j + 1] += card_count;
             }
-
-            counter += match_count;
         }
 
         Ok(counter)

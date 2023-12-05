@@ -6,9 +6,10 @@ mod day4;
 fn main() -> Result<()> {
     color_eyre::install()?;
 
-    let scratchcards = Scratchcards::new("../../inputs/day-4.txt")?;
-    let result = scratchcards.solve()?;
+    let mut scratchcards = Scratchcards::new("../../inputs/day-4.txt")?;
+    let pulled_tickets = scratchcards.solve()?;
 
-    println!("{}", result);
+    println!("{}", pulled_tickets);
+
     Ok(())
 }
